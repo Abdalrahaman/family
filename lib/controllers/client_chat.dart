@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 class ClientChat {
   final Socket socket;
+
+  Socket get getServerSocket => socket;
 
   ClientChat(this.socket) {
     socket.listen(dataHandler,
@@ -9,7 +12,7 @@ class ClientChat {
   }
 
   void dataHandler(data) {
-    print(String.fromCharCodes(data).trim());
+    print('Server Message ${utf8.decode(data)}');
   }
 
   void errorHandler(error, StackTrace trace) {
@@ -18,10 +21,9 @@ class ClientChat {
 
   void doneHandler() {
     socket.close();
-    // exit(0);
   }
 
   void write(String message) {
-    socket.write(message);
+    socket.add(utf8.encode(message));
   }
 }

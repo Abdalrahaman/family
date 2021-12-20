@@ -1,3 +1,4 @@
+import 'package:family/providers/chat_message_provider.dart';
 import 'package:family/providers/host_provider.dart';
 import 'package:family/routes.dart';
 import 'package:family/widgets/home/home_widget.dart';
@@ -12,6 +13,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HostProvider()),
+      ChangeNotifierProvider(create: (_) => ChatMessageProvider()),
     ],
     child: const MyApp(),
   ));

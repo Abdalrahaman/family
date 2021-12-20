@@ -1,18 +1,22 @@
 import 'dart:collection';
+import 'dart:io';
 
-import 'package:family/model/socket.dart';
+import 'package:family/controllers/client_chat.dart';
 import 'package:flutter/material.dart';
 
 class HostProvider extends ChangeNotifier {
-  final List<SocketModel> _sockets = [];
+  final List<ClientChat> _sockets = [];
 
-  UnmodifiableListView<SocketModel> get sockets =>
+  UnmodifiableListView<ClientChat> get sockets =>
       UnmodifiableListView(_sockets);
 
-  void addSocket(SocketModel? socket) {
-    if (_sockets.indexWhere((element) => element.address == socket!.address) ==
-        -1) {
-      _sockets.add(socket!);
+  void addSocket(Socket? socket) {
+    if (socket != null &&
+        _sockets.indexWhere((element) =>
+                element.getServerSocket.remoteAddress.address ==
+                socket.remoteAddress.address) ==
+            -1) {
+      _sockets.add(ClientChat(socket));
     }
     notifyListeners();
   }
