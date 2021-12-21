@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChatInputField extends StatefulWidget {
+  final ClientChat client;
   const ChatInputField({
     Key? key,
+    required this.client,
   }) : super(key: key);
 
   @override
@@ -18,7 +20,6 @@ class _ChatInputFieldState extends State<ChatInputField> {
   Widget build(BuildContext context) {
     final _messageController = TextEditingController();
     late String message;
-    final client = ModalRoute.of(context)!.settings.arguments as ClientChat;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       decoration: BoxDecoration(
@@ -49,9 +50,11 @@ class _ChatInputFieldState extends State<ChatInputField> {
               ),
             ),
           ),
-          Material(
-            color: Colors.white,
-            child: Center(
+          const SizedBox(
+            width: 5.0,
+          ),
+          ClipOval(
+            child: Material(
               child: Ink(
                 decoration: const ShapeDecoration(
                   color: Colors.lightBlue,
@@ -65,7 +68,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                     Provider.of<ChatMessageProvider>(context, listen: false)
                         .addMessage(Message(message, true));
                     _messageController.clear();
-                    client.write(message);
+                    widget.client.write(message);
                   },
                 ),
               ),

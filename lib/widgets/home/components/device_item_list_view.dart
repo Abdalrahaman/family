@@ -53,15 +53,16 @@ class DeviceItemListView extends StatelessWidget {
                           width: 5.0,
                         ),
                         Container(
-                          padding: const EdgeInsets.all(5.0),
-                          // color: Colors.yellow,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 5.0),
+                          // color: Colors.green,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFDD835),
-                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xFF43A047),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                           child: const Text(
-                            'Waiting',
-                            style: TextStyle(fontSize: 11),
+                            'New',
+                            style: TextStyle(color: Colors.white, fontSize: 11),
                           ),
                         ),
                       ],

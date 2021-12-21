@@ -28,7 +28,7 @@ class ScanNetwork {
         print('${progress.percent * 100}% 192.168.1.${progress.currIP}');
         if (progress.percent == 1.0) {
           sendNotificationForAllDevices(
-              Provider.of<HostProvider>(context, listen: true).sockets);
+              Provider.of<HostProvider>(context, listen: false).sockets);
         }
       },
     );

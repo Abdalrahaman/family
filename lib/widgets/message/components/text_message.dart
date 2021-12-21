@@ -10,17 +10,20 @@ class TextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 12.0),
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
-        decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(message.isSender ? 1 : 0.1),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Text(
-          message.text,
-          style:
-              TextStyle(color: message.isSender ? Colors.white : Colors.black),
-        ));
+    return Flexible(
+      child: Container(
+          margin: const EdgeInsets.only(top: 12.0, right: 15.0, left: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(message.isSender ? 1 : 0.1),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Text(
+            message.text,
+            softWrap: true,
+            style: TextStyle(
+                color: message.isSender ? Colors.white : Colors.black),
+          )),
+    );
   }
 }
