@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
 import 'components/home_body.dart';
@@ -14,15 +15,16 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  String wifiName = '';
+  String wifiName = 'Family';
+  late bool _serviceEnabled;
   @override
   void initState() {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
+      await checkLocationPermission();
       await networkInfo();
     });
-    // print(myIP);
   }
 
   @override
@@ -30,16 +32,28 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('$wifiName Family'),
+        title: Text(wifiName),
       ),
       body: const HomeBody(),
     );
   }
 
   Future<void> networkInfo() async {
-    wifiName = (await NetworkInfo().getWifiName())!;
+    wifiName = (await NetworkInfo().getWifiName())! + ' ' + wifiName;
     setState(() {
       wifiName = wifiName;
     });
+  }
+
+  Future<void> checkLocationPermission() async {
+    Location location = Location();
+
+    var _permissionGranted = await location.hasPermission();
+    _serviceEnabled = await location.serviceEnabled();
+
+    if (_permissionGranted != PermissionStatus.granted || !_serviceEnabled) {
+      _permissionGranted = await location.requestPermission();
+      _serviceEnabled = await location.requestService();
+    }
   }
 }

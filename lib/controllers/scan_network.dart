@@ -51,7 +51,8 @@ class ScanNetwork {
 
   void sendNotificationForAllDevices(List<ClientChat> serverSocket) {
     for (ClientChat client in serverSocket) {
-      client.write('1 ${serverSocket.indexOf(client)}');
+      client.write(
+          '1-${serverSocket.indexOf(client)}-Family-This Phone Nearby From Your Home');
     }
   }
 }

@@ -1,11 +1,16 @@
+import 'package:family/controllers/client_chat.dart';
 import 'package:flutter/material.dart';
 
 class DeviceItemListView extends StatelessWidget {
-  final String host;
+  final int index;
+  final ClientChat client;
+  final String myIP;
   final VoidCallback press;
   const DeviceItemListView({
     Key? key,
-    required this.host,
+    required this.index,
+    required this.client,
+    required this.myIP,
     required this.press,
   }) : super(key: key);
 
@@ -67,7 +72,7 @@ class DeviceItemListView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text(host),
+                    Text(client.getServerSocket.remoteAddress.address),
                   ],
                 ),
               ],
@@ -84,7 +89,7 @@ class DeviceItemListView extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.notifications),
                     color: Colors.grey,
-                    onPressed: () {},
+                    onPressed: () => callServer(client),
                   ),
                 ),
               ),
@@ -93,5 +98,9 @@ class DeviceItemListView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void callServer(ClientChat client) {
+    client.write('2-$myIP');
   }
 }

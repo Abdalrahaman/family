@@ -60,8 +60,9 @@ class _HomeBodyState extends State<HomeBody> {
           itemCount: hostProvider.sockets.length,
           itemBuilder: (context, index) {
             return DeviceItemListView(
-              host: hostProvider
-                  .sockets[index].getServerSocket.remoteAddress.address,
+              index: index,
+              client: hostProvider.sockets[index],
+              myIP: myIP,
               press: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -105,11 +106,5 @@ class _HomeBodyState extends State<HomeBody> {
   Future<void> getDeviceIP() async {
     myIP = (await NetworkInfo().getWifiIP())!;
     myIP = NumberUtility.changeDigit(myIP, NumStrLanguage.English);
-  }
-
-  void sendNotificationForAllDevices() {
-    for (ClientChat client in serverSocket) {
-      client.write('1 ${serverSocket.indexOf(client)}');
-    }
   }
 }
