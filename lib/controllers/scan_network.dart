@@ -1,6 +1,6 @@
-import 'dart:io';
-
+import 'package:family/DB/db.dart';
 import 'package:family/controllers/client_connection.dart';
+import 'package:family/controllers/device_info.dart';
 import 'package:family/model/socket.dart';
 import 'package:family/providers/host_provider.dart';
 import 'package:flutter/material.dart';
@@ -11,48 +11,47 @@ import 'client_chat.dart';
 
 class ScanNetwork {
   final BuildContext context;
-  final String myIP;
 
-  ScanNetwork(this.context, this.myIP);
+  ScanNetwork(this.context);
 
   Future<void> getReachiableIP() async {
     final scanner = LanScanner();
-    String subnet = myIP.substring(0, myIP.lastIndexOf('.'));
+    String subnet = DeviceInfo.deviceData.deviceIp
+        .substring(0, DeviceInfo.deviceData.deviceIp.lastIndexOf('.'));
     int port = 4567;
 
-    final stream = scanner.preciseScan(
+    final stream = scanner.icmpScan(
       subnet,
       firstIP: 1,
       lastIP: 15,
-      progressCallback: (ProgressModel progress) {
-        print('${progress.percent * 100}% 192.168.1.${progress.currIP}');
-        if (progress.percent == 1.0) {
+      progressCallback: (progress) async {
+        print(progress);
+        if (progress == 1.0) {
           sendNotificationForAllDevices(
-              Provider.of<HostProvider>(context, listen: false).sockets);
+              Provider.of<HostProvider>(context, listen: false).devices);
+          print(await DB().getDevices());
         }
       },
     );
 
-    stream.listen((DeviceModel device) async {
-      if (device.exists &&
-          int.parse(device.ip!.substring(device.ip!.lastIndexOf('.') + 1)) !=
-              1 &&
-          device.ip != myIP) {
-        print(
-            "Found device on ${device.ip}:${device.port}"); // device port is null
+    stream.listen((HostModel device) async {
+      if (device.isReachable &&
+          int.parse(device.ip.substring(device.ip.lastIndexOf('.') + 1)) != 1 &&
+          device.ip != DeviceInfo.deviceData.deviceIp) {
+        print("Found device on ${device.ip}");
         ClientConnection _clientConnection =
-            ClientConnection(SocketModel(device.ip!, port));
-        Socket? serverSocket = await _clientConnection.connect();
-        Provider.of<HostProvider>(context, listen: false)
-            .addSocket(serverSocket);
+            ClientConnection(context, SocketModel(device.ip, port));
+        await _clientConnection.connect();
       }
     });
   }
 
-  void sendNotificationForAllDevices(List<ClientChat> serverSocket) {
-    for (ClientChat client in serverSocket) {
-      client.write(
-          '1-${serverSocket.indexOf(client)}-Family-This Phone Nearby From Your Home');
+  void sendNotificationForAllDevices(List<ClientChat> devices) {
+    for (ClientChat device in devices) {
+      device.socket.write(
+          '3-${devices.indexOf(device)}-${DeviceInfo.deviceData.deviceId}-${DeviceInfo.deviceData.deviceName}');
+      // device.socket.write(
+      //     '1-${devices.indexOf(device)}-Family-${DeviceInfo.deviceData.deviceName} Nearby From Your Home');
     }
   }
 }

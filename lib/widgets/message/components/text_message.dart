@@ -1,4 +1,5 @@
 import 'package:family/model/message.dart';
+import 'package:family/size_config.dart';
 import 'package:flutter/material.dart';
 
 class TextMessage extends StatelessWidget {
@@ -12,17 +13,20 @@ class TextMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(
-          margin: const EdgeInsets.only(top: 12.0, right: 15.0, left: 15.0),
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(message.isSender ? 1 : 0.1),
-            borderRadius: BorderRadius.circular(30),
+            color: message.isSender
+                ? Color(0xff00838f).withOpacity(0.9)
+                : Colors.grey.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
-            message.text,
+            message.text.trim(),
+            textAlign: TextAlign.start,
             softWrap: true,
             style: TextStyle(
-                color: message.isSender ? Colors.white : Colors.black),
+                color: message.isSender ? Colors.white : Colors.black,
+                fontSize: getSize(15)),
           )),
     );
   }

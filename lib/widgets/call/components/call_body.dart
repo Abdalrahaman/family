@@ -41,7 +41,7 @@ class _CallBodyState extends State<CallBody> {
 
   @override
   Widget build(BuildContext context) {
-    final _myIP = ModalRoute.of(context)!.settings.arguments as String;
+    final _clintIP = ModalRoute.of(context)!.settings.arguments as String;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 50.0),
       decoration: const BoxDecoration(
@@ -55,7 +55,9 @@ class _CallBodyState extends State<CallBody> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DeviceInfoCall(myIP: _myIP),
+              DeviceInfoCall(
+                clientIP: _clintIP,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -91,7 +93,7 @@ class _CallBodyState extends State<CallBody> {
                             icon: const Icon(Icons.done),
                             color: Colors.white,
                             onPressed: () {
-                              acceptOpeningDoor(_myIP);
+                              acceptOpeningDoor(_clintIP);
                               _stopAudio();
                               Navigator.pop(context);
                             }),
@@ -107,13 +109,13 @@ class _CallBodyState extends State<CallBody> {
     );
   }
 
-  void acceptOpeningDoor(String myIP) {
-    List<ClientChat> _sockets =
-        Provider.of<HostProvider>(context, listen: false).sockets;
-    for (ClientChat client in _sockets) {
-      if (client.getServerSocket.remoteAddress.address == myIP) {
-        client.write(
-            '1-${_sockets.indexOf(client)}-Family-Accepted Openning The Door, Please Waiting...');
+  void acceptOpeningDoor(String clintIP) {
+    List<ClientChat> _devices =
+        Provider.of<HostProvider>(context, listen: false).devices;
+    for (ClientChat device in _devices) {
+      if (device.socket.remoteAddress.address == clintIP) {
+        device.socket.write(
+            '1-${_devices.indexOf(device)}-Family-Accepted Openning The Door, Please Waiting...');
       }
     }
   }

@@ -1,4 +1,5 @@
 import 'package:family/controllers/client_chat.dart';
+import 'package:family/size_config.dart';
 import 'package:family/widgets/message/components/message_body.dart';
 import 'package:flutter/material.dart';
 
@@ -13,15 +14,15 @@ class MessageWidget extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               backgroundColor: Colors.brown,
               child: Center(
                 child: Text(
                   'A',
                   style: TextStyle(
-                    color: Colors.white70,
+                    color: Colors.white.withOpacity(0.9),
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: getSize(18),
                   ),
                 ),
               ),
@@ -32,13 +33,13 @@ class MessageWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Abdalrahamn Omran',
-                  style: TextStyle(fontSize: 16),
+                Text(
+                  _client.deviceData.deviceName,
+                  style: TextStyle(fontSize: getSize(16)),
                 ),
                 Text(
-                  _client.getServerSocket.remoteAddress.address,
-                  style: const TextStyle(fontSize: 12),
+                  _client.socket.remoteAddress.address,
+                  style: TextStyle(fontSize: getSize(14)),
                 ),
               ],
             ),

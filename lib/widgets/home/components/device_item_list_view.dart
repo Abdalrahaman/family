@@ -1,16 +1,15 @@
 import 'package:family/controllers/client_chat.dart';
+import 'package:family/controllers/device_info.dart';
 import 'package:flutter/material.dart';
 
+import '../../../size_config.dart';
+
 class DeviceItemListView extends StatelessWidget {
-  final int index;
   final ClientChat client;
-  final String myIP;
   final VoidCallback press;
   const DeviceItemListView({
     Key? key,
-    required this.index,
     required this.client,
-    required this.myIP,
     required this.press,
   }) : super(key: key);
 
@@ -25,37 +24,37 @@ class DeviceItemListView extends StatelessWidget {
           children: [
             Row(
               children: [
-                const CircleAvatar(
-                  radius: 25.0,
+                CircleAvatar(
+                  radius: getProportionateScreenWidth(25),
                   backgroundColor: Colors.blue,
                   child: Center(
                     child: Text(
                       'A',
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: Colors.white.withOpacity(0.9),
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: getSize(22),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 8.0,
+                SizedBox(
+                  width: getProportionateScreenWidth(8),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        const Text(
-                          'Abdelrahman Omran',
+                        Text(
+                          client.deviceData.deviceName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize: getSize(16),
                           ),
                         ),
-                        const SizedBox(
-                          width: 5.0,
+                        SizedBox(
+                          width: getProportionateScreenWidth(3),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -65,14 +64,18 @@ class DeviceItemListView extends StatelessWidget {
                             color: const Color(0xFF43A047),
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          child: const Text(
+                          child: Text(
                             'New',
-                            style: TextStyle(color: Colors.white, fontSize: 11),
+                            style: TextStyle(
+                                color: Colors.white, fontSize: getSize(10)),
                           ),
                         ),
                       ],
                     ),
-                    Text(client.getServerSocket.remoteAddress.address),
+                    Text(
+                      client.socket.remoteAddress.address,
+                      style: TextStyle(fontSize: getSize(14)),
+                    ),
                   ],
                 ),
               ],
@@ -80,15 +83,18 @@ class DeviceItemListView extends StatelessWidget {
             ClipOval(
               child: Material(
                 child: Ink(
-                  width: 40,
-                  height: 40,
-                  decoration: const ShapeDecoration(
+                  width: getProportionateScreenWidth(40),
+                  height: getProportionateScreenHeight(40),
+                  decoration: ShapeDecoration(
                     color: Color(0xFFE0E0E0),
                     shape: CircleBorder(),
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.notifications),
-                    color: Colors.grey,
+                    icon: Icon(
+                      Icons.notifications,
+                      size: getProportionateScreenWidth(24),
+                    ),
+                    color: Color(0xFF000000).withOpacity(0.5),
                     onPressed: () => callServer(client),
                   ),
                 ),
@@ -101,6 +107,6 @@ class DeviceItemListView extends StatelessWidget {
   }
 
   void callServer(ClientChat client) {
-    client.write('2-$myIP');
+    client.socket.write('2-${DeviceInfo.deviceData.deviceIp}');
   }
 }

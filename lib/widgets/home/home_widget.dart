@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:family/controllers/scan_network.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:network_info_plus/network_info_plus.dart';
@@ -33,6 +34,13 @@ class _HomeWidgetState extends State<HomeWidget> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(wifiName),
+        actions: [
+          IconButton(
+              onPressed: () {
+                ScanNetwork(context).getReachiableIP();
+              },
+              icon: Icon(Icons.refresh)),
+        ],
       ),
       body: const HomeBody(),
     );

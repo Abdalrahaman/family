@@ -1,6 +1,8 @@
 import 'package:family/controllers/client_chat.dart';
 import 'package:family/model/message.dart';
 import 'package:family/providers/chat_message_provider.dart';
+import 'package:family/size_config.dart';
+import 'package:family/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,25 +52,30 @@ class _ChatInputFieldState extends State<ChatInputField> {
               ),
             ),
           ),
-          const SizedBox(
-            width: 5.0,
+          SizedBox(
+            width: getProportionateScreenWidth(2),
           ),
           ClipOval(
             child: Material(
               child: Ink(
-                decoration: const ShapeDecoration(
-                  color: Colors.lightBlue,
+                width: getProportionateScreenWidth(50),
+                height: getProportionateScreenHeight(50),
+                decoration: ShapeDecoration(
+                  color: fPrimaryColor,
                   shape: CircleBorder(),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.send),
+                  icon: Icon(
+                    Icons.send,
+                    size: getProportionateScreenWidth(22),
+                  ),
                   color: Colors.white,
                   onPressed: () {
                     message = _messageController.text;
                     Provider.of<ChatMessageProvider>(context, listen: false)
                         .addMessage(Message(message, true));
                     _messageController.clear();
-                    widget.client.write(message);
+                    widget.client.socket.write(message);
                   },
                 ),
               ),
