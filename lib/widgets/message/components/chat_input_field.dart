@@ -21,6 +21,10 @@ class _ChatInputFieldState extends State<ChatInputField> {
   @override
   Widget build(BuildContext context) {
     final _messageController = TextEditingController();
+    _messageController.text =
+        Provider.of<ChatMessageProvider>(context, listen: false).text;
+    _messageController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _messageController.text.length));
     late String message;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
@@ -49,6 +53,10 @@ class _ChatInputFieldState extends State<ChatInputField> {
                   hintText: 'Type a Message...',
                   border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  Provider.of<ChatMessageProvider>(context, listen: false)
+                      .updateTextField(value);
+                },
               ),
             ),
           ),
@@ -74,7 +82,9 @@ class _ChatInputFieldState extends State<ChatInputField> {
                     message = _messageController.text;
                     Provider.of<ChatMessageProvider>(context, listen: false)
                         .addMessage(Message(message, true));
-                    _messageController.clear();
+                    // _messageController.clear();
+                    Provider.of<ChatMessageProvider>(context, listen: false)
+                        .updateTextField("");
                     widget.client.socket.write(message);
                   },
                 ),
