@@ -1,5 +1,6 @@
 import 'package:family/model/message.dart';
 import 'package:family/size_config.dart';
+import 'package:family/values/colors.dart';
 import 'package:flutter/material.dart';
 
 class TextMessage extends StatelessWidget {
@@ -13,20 +14,19 @@ class TextMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           decoration: BoxDecoration(
-            color: message.isSender
-                ? Color(0xff00838f).withOpacity(0.9)
-                : Colors.grey.withOpacity(0.2),
+            color:
+                message.isSender ? fPrimaryColor : Colors.grey.withOpacity(0.2),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
             message.text.trim(),
-            textAlign: TextAlign.start,
+            textDirection: TextDirection.rtl,
             softWrap: true,
             style: TextStyle(
                 color: message.isSender ? Colors.white : Colors.black,
-                fontSize: getSize(15)),
+                fontSize: getSize(15.5)),
           )),
     );
   }

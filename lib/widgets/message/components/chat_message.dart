@@ -14,10 +14,10 @@ class ChatMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
       margin: EdgeInsets.only(
-          left: message.isSender ? getProportionateScreenWidth(100) : 0,
-          right: message.isSender ? 0 : getProportionateScreenWidth(100)),
+          left: message.isSender ? getProportionateScreenWidth(100) : 15.0,
+          right: message.isSender ? 15.0 : getProportionateScreenWidth(100)),
       child: Row(
         mainAxisAlignment:
             message.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,

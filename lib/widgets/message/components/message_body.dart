@@ -27,6 +27,7 @@ class _MessageBodyState extends State<MessageBody> {
         children: [
           Expanded(
             child: ListView.builder(
+              padding: const EdgeInsets.only(top: 10),
               shrinkWrap: true,
               controller: _scrollController,
               itemCount: chatMessageProvider.messages.length,

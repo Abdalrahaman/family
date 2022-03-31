@@ -1,5 +1,6 @@
 import 'package:family/controllers/client_chat.dart';
 import 'package:family/size_config.dart';
+import 'package:family/values/colors.dart';
 import 'package:family/widgets/message/components/message_body.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,9 @@ class MessageWidget extends StatelessWidget {
     final _client = ModalRoute.of(context)!.settings.arguments as ClientChat;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 1,
+        iconTheme: IconThemeData(color: fPrimaryColor),
         title: Row(
           children: [
             CircleAvatar(
@@ -35,11 +39,11 @@ class MessageWidget extends StatelessWidget {
               children: [
                 Text(
                   _client.deviceData.deviceName,
-                  style: TextStyle(fontSize: getSize(16)),
+                  style: TextStyle(color: Colors.black, fontSize: getSize(16)),
                 ),
                 Text(
                   _client.socket.remoteAddress.address,
-                  style: TextStyle(fontSize: getSize(14)),
+                  style: TextStyle(color: Colors.black, fontSize: getSize(14)),
                 ),
               ],
             ),
