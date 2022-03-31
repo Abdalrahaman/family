@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:family/DB/db.dart';
 import 'package:family/controllers/device_info.dart';
 import 'package:family/model/device.dart';
 import 'package:family/model/message.dart';
@@ -41,7 +42,7 @@ class ServerConnection {
         "3-${DeviceInfo.deviceData.deviceId}-${DeviceInfo.deviceData.deviceName}");
   }
 
-  void messageHandler(List<int> data) {
+  void messageHandler(List<int> data) async {
     String message = utf8.decode(data);
     List<String> parts = message.split("-");
     switch (parts[0]) {
@@ -59,11 +60,11 @@ class ServerConnection {
         break;
       case '3':
         Provider.of<HostProvider>(context, listen: false).addDevice(
-            client, Device(parts[2], parts[3], client.remoteAddress.address));
+            client, Device(parts[1], parts[2], client.remoteAddress.address));
         notificationService.showNotifications(
-            int.parse(parts[1]), 'Family', '${parts[3]} Nearby From Your Home');
-        // await DB()
-        //     .insertDevice(Device(parts[1], parts[2], clientSocket.remoteAddress.address));
+            1, parts[2], 'Nearby From Your Home');
+        await DB().insertDevice(
+            Device(parts[1], parts[2], client.remoteAddress.address));
         break;
       case '4':
         Provider.of<HostProvider>(context, listen: false)

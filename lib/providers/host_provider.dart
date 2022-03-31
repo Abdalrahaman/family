@@ -13,12 +13,9 @@ class HostProvider extends ChangeNotifier {
 
   void addDevice(Socket? socket, Device? deviceData) {
     if (socket != null && deviceData != null) {
-      _devices.removeWhere((element) =>
-          element.socket.remoteAddress.address == socket.remoteAddress.address);
+      _devices.removeWhere(
+          (element) => element.deviceData.deviceId == deviceData.deviceId);
       _devices.add(ClientChat(socket, deviceData));
-      for (ClientChat item in _devices) {
-        print('array => ' + item.deviceData.deviceIp);
-      }
     }
     notifyListeners();
   }

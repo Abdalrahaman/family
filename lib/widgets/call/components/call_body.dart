@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:family/controllers/client_chat.dart';
+import 'package:family/controllers/device_info.dart';
 import 'package:family/providers/host_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -115,7 +116,7 @@ class _CallBodyState extends State<CallBody> {
     for (ClientChat device in _devices) {
       if (device.socket.remoteAddress.address == clintIP) {
         device.socket.write(
-            '1-${_devices.indexOf(device)}-Family-Accepted Openning The Door, Please Waiting...');
+            '1-${_devices.indexOf(device)}-${DeviceInfo.deviceData.deviceName}-Accepted Openning The Door, Please Waiting...');
       }
     }
   }

@@ -49,9 +49,7 @@ class ScanNetwork {
   void sendNotificationForAllDevices(List<ClientChat> devices) {
     for (ClientChat device in devices) {
       device.socket.write(
-          '3-${devices.indexOf(device)}-${DeviceInfo.deviceData.deviceId}-${DeviceInfo.deviceData.deviceName}');
-      // device.socket.write(
-      //     '1-${devices.indexOf(device)}-Family-${DeviceInfo.deviceData.deviceName} Nearby From Your Home');
+          '3-${DeviceInfo.deviceData.deviceId}-${DeviceInfo.deviceData.deviceName}');
     }
   }
 }

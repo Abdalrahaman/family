@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:family/controllers/device_info.dart';
 import 'package:family/controllers/scan_network.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:network_info_plus/network_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/home_body.dart';
 
@@ -36,8 +38,11 @@ class _HomeWidgetState extends State<HomeWidget> {
         title: Text(wifiName),
         actions: [
           IconButton(
-              onPressed: () {
-                ScanNetwork(context).getReachiableIP();
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await DeviceInfo()
+                    .initPlatformState(prefs.getString('deviceName')!);
+                await ScanNetwork(context).getReachiableIP();
               },
               icon: Icon(Icons.refresh)),
         ],
