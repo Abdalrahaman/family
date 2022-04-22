@@ -1,6 +1,6 @@
 # Family
 
-A new Flutter application project that provides features to the family without internet.
+A new Flutter application project that provides features to the local family network ( without internet ).
 
 ## Project Features
 
