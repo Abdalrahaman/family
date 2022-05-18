@@ -6,8 +6,6 @@ A new Flutter application project that provides features to the local family net
 
 To get to the IP addresses available on the local network, I used [Socket](https://api.dart.dev/stable/2.16.2/dart-io/Socket-class.html) that it is a TCP connection between two sockets.
 
-Through this I Provided some features :
-
 * Followed the sketch design to build the mobile app.
 * Used **Socket** to access the IP addresses available on the local network which is a TCP connection between two sockets.
 * Built Push notification when approaching the family home.
